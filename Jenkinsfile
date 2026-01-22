@@ -14,6 +14,12 @@ pipeline {
             }
         }
 
+        stage('Verify Python') {
+            steps {
+                bat 'python --version'
+            }
+        }
+
         stage('Create Virtualenv') {
             steps {
                 bat '''
