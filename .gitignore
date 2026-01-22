@@ -1,0 +1,9 @@
+# add all django ignoring files
+*.log
+*.pot
+*.pyc
+__pycache__/
+jenk/settings.py
+db.sqlite3
+media/
+.venv/
