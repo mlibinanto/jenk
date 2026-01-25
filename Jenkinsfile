@@ -73,11 +73,19 @@ pipeline {
                 '''
             }
         }
-
+        // stage to run server in test mode
         stage('Run Server (Test)') {
             steps {
                 bat '''
                 echo Django build successful
+                '''
+            }
+        }
+        // add run server stage
+        stage('Run Server') {
+            steps {
+                bat '''
+                %VENV%\\Scripts\\python manage.py runserver
                 '''
             }
         }
