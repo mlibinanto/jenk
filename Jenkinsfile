@@ -32,7 +32,7 @@ pipeline {
 
         stage('Verify DRF') {
             steps {
-                bat 'venv\\Scripts\\pip show djangorestframework'
+                bat '%VENV%\\Scripts\\pip show djangorestframework'
             }
         }
 
