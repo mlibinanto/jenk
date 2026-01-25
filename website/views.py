@@ -10,6 +10,10 @@ def index(request):
         data=[]
         user= request.session.get('user')
         data.append(user)
+        if request.user.is_authenticated:
+            print(request.user.username)
+        else:
+            print("Anonymous")
         return render(request, 'website/index.html', {'data': data})
     else:
         return redirect('/login')
