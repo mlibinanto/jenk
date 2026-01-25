@@ -36,6 +36,16 @@ pipeline {
             }
         }
 
+        // add stages for mysql client
+        stage('Database Setup') {
+            steps {
+                bat '''
+                %VENV%\\Scripts\\pip show mysqlclient || %VENV%\\Scripts\\pip install mysqlclient
+                '''
+            }
+        }
+        
+
         stage('Migrate') {
             steps {
                 bat '''
@@ -43,6 +53,18 @@ pipeline {
                 '''
             }
         }
+
+        // stage to check simple jwt and argon2
+        stage('Verify JWT and Argon2') {
+            steps {
+                bat '''
+                %VENV%\\Scripts\\pip show djangorestframework-simplejwt || %VENV%\\Scripts\\pip install djangorestframework-simplejwt
+                %VENV%\\Scripts\\pip show argon2-cffi || %VENV%\\Scripts\\pip install argon2-cffi
+                '''
+            }
+        }
+
+        
 
         stage('Collect Static') {
             steps {
