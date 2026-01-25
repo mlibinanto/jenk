@@ -30,6 +30,12 @@ pipeline {
             }
         }
 
+        stage('Verify DRF') {
+            steps {
+                bat 'venv\\Scripts\\pip show djangorestframework'
+            }
+        }
+
         stage('Migrate') {
             steps {
                 bat '''
