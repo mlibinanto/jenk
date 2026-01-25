@@ -81,13 +81,6 @@ pipeline {
                 '''
             }
         }
-        // add run server stage
-        stage('Run Server') {
-            steps {
-                bat '''
-                %VENV%\\Scripts\\python manage.py runserver
-                '''
-            }
-        }
+        
     }
 }
