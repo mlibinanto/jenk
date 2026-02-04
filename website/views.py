@@ -2,18 +2,19 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from Admin.models import Admin
 from django.contrib.auth.models import User
+from django.utils import timezone
+from datetime import timedelta
 import datetime
 
 # Create your views here.
 def index(request):
     if request.session.get('user'):
+        print("Session exists--------------------------------")
+        # print(request.session.get('user'))
         data=[]
         user= request.session.get('user')
         data.append(user)
-        if request.user.is_authenticated:
-            print(request.user.username)
-        else:
-            print("Anonymous")
+        # print(data)
         return render(request, 'website/index.html', {'data': data})
     else:
         return redirect('/login')
@@ -29,7 +30,21 @@ def login(request):
         try:
             admin = Admin.objects.get(username=username)
             if admin.check_password(password):  # Verify Argon2 hashed password
+                # Create comprehensive session data
                 request.session['user'] = username
+                request.session['user_id'] = admin.id
+                request.session['user_email'] = admin.email
+                request.session['user_name'] = admin.name
+                request.session['user_role'] = admin.role
+                request.session['user_status'] = admin.status
+                request.session['login_time'] = timezone.now().isoformat()
+                
+                # Mark session as modified to ensure it's saved
+                request.session.modified = True
+                
+                print(f"User {username} logged in successfully")
+                print(f"Session ID: {request.session.session_key}")
+                
                 return redirect('/')
             else:
                 return render(request, 'website/login.html', {'error': 'Invalid credentials'})
@@ -75,8 +90,14 @@ def register(request):
 
 def logout(request):
     try:
-        del request.session['user']
+        username = request.session.get('user')
+        print(f"User {username} logged out")
+        
+        # Flush the entire session
+        request.session.flush()
+        
         return redirect('/login')
-    except KeyError:
-        pass
-    return render(request, 'logout.html')
+    except Exception as e:
+        print(f"Logout error: {str(e)}")
+        request.session.flush()
+    return redirect('/login')

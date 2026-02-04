@@ -57,6 +57,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'jenk.middleware.SessionManagementMiddleware',
+    'jenk.middleware.SessionExpiryMiddleware',
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -164,3 +166,34 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/6.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Session Configuration
+# https://docs.djangoproject.com/en/6.0/topics/http/sessions/
+
+# Use database for session storage
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+# Session expiry time (in seconds)
+# 1209600 = 14 days, 3600 = 1 hour, 86400 = 1 day
+SESSION_COOKIE_AGE = 1209600  # 14 days session timeout
+
+# Save session even if it hasn't been modified
+SESSION_SAVE_EVERY_REQUEST = True
+
+# Session cookie expiry matches the SESSION_COOKIE_AGE
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# Secure session cookies (set to True in production with HTTPS)
+SESSION_COOKIE_SECURE = False  # Set to True when using HTTPS
+
+# Only send cookies over HTTPS
+SESSION_COOKIE_HTTPONLY = True
+
+# SameSite attribute for cookies
+SESSION_COOKIE_SAMESITE = 'Lax'
+
+# Enable session across domain (optional)
+SESSION_COOKIE_DOMAIN = None
+
+# Session key name
+SESSION_COOKIE_NAME = 'sessionid'
