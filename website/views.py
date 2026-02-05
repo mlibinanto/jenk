@@ -4,6 +4,7 @@ from Admin.models import Admin
 from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import timedelta
+from django.contrib.auth import authenticate, login, logout
 import datetime
 
 # Create your views here.
@@ -15,6 +16,7 @@ def index(request):
         user= request.session.get('user')
         data.append(user)
         # print(data)
+        # create a jwt token for the user
         return render(request, 'website/index.html', {'data': data})
     else:
         return redirect('/login')
