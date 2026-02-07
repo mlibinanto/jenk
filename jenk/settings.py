@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -102,10 +103,10 @@ DATABASES = {
     # use my sql database
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'drf_db',
-        'USER': 'root',
-        'PASSWORD': 'pass',
-        'HOST': 'localhost',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_CREDENTIALS_USR'),
+        'PASSWORD': os.getenv('DB_CREDENTIALS_PSW'),
+        'HOST': os.getenv('DB_HOST'),
         'PORT': '3307',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
