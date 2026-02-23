@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 
 # Create your models here.
 
@@ -19,3 +20,8 @@ class Collection(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_total_savings_list(self):
+        # get total savings for each user
+        total_savings = Collection.objects.values('user_id', 'name').annotate(total_amount=Sum('amount'))
+        return total_savings

@@ -20,6 +20,7 @@ from api import views
 from website import views as website_views
 from Loan import views as loan_views
 from api.views import BankApiView
+from Collection import views as collection_views
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -34,6 +35,12 @@ urlpatterns = [
     path('login/', website_views.login, name="login"),
     path('register/', website_views.register, name="register"),
     path('logout/', website_views.logout, name="logout"),
+
+    # collection urls
+    path('collections/', collection_views.list, name="collections"),
+    # path('collections/create/', collection_views.create_collection, name="create_collection"),
+    # path('collections/<int:collection_id>/', collection_views.collection_detail, name="collection_detail"),
+
     # define post method url
     # path('api/post/', views.BankApiView.as_view(), name="BankApiPostViews"),
 
